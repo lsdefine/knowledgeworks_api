@@ -1,3 +1,8 @@
+CN-DBpedia & CN-Probase API Utils
+========
+* http://kw.fudan.edu.cn/apis/intro/ 
+* http://shuyantech.com/docuapi
+
 ```python
 # encoding=utf-8
 import kw_api as api
