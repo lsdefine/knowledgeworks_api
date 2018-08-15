@@ -191,6 +191,20 @@ def GetEntConcepts(ents):
 	rets = GetAPI('cnprobase/concept', {'q': query}).get('ret',[])
 	return [item[0] for item in rets]
 
+def GetEntConceptsMulti(ents):
+	'''
+	:param ents: Input a list of entities
+	:return: Concepts of each entity
+	'''
+	query = '\t'.join(ents) if type(ents) is not type('') else ents
+	rets = GetAPI('cnprobase/conceptmulti', {'q': query}).get('ret',[])
+	retdict = {}
+	for item in rets:
+		ent = item.get('e','')
+		cons = item.get('concepts',[])
+		retdict[ent] = cons
+	return retdict
+
 def GetEntsByConcept(con):
 	'''
 	:param con: Input a concept
