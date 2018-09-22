@@ -159,21 +159,25 @@ def CalcAge(trs):
 		if year != '': return [['年龄', str(datetime.now().year - int(year)) + '岁']]
 	return []
 
-def GetEntTriples(ent):
+def GetEntTriples(ent, keephref=False):
 	'''
 	:param ent: Input entity
 	:return: triples of entities : [[p1:v1],[p2,v2],...]
 	'''
-	trs = GetAPI('cndbpedia/avpair', {'q': ent}).get('ret', [])
+	query = {'q': ent}
+	if keephref: query['keephref'] = 1
+	trs = GetAPI('cndbpedia/avpair', query).get('ret', [])
 	trs.extend(CalcAge(trs))
 	return trs
 
-def GetEntTriplesMulti(ents):
+def GetEntTriplesMulti(ents, keephref=False):
 	'''
 	:param: Input a list of entities
 	:return: The triples of these entities : {s1:[[p1,v1],...], s2:[[p2,v2],...]}
 	'''
-	rets = GetAPI('cndbpedia/avpairmulti', {'q': '\t'.join(ents), 'nospecial': 1}).get('ret', [])
+	query = {'q': '\t'.join(ents), 'nospecial': 1}
+	if keephref: query['keephref'] = 1
+	rets = GetAPI('cndbpedia/avpairmulti', query).get('ret', [])
 	rr = {}
 	for item in rets:
 		ent, trs = item['e'], item['avpairs']
